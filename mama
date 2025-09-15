@@ -1,0 +1,56 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // 1. Input student's name
+        Console.Write("Enter student's name: ");
+        string name = Console.ReadLine();
+
+        // 2. Input subject scores
+        Console.Write("Enter Mathematics score (0-100): ");
+        double math = double.Parse(Console.ReadLine());
+
+        Console.Write("Enter Science score (0-100): ");
+        double science = double.Parse(Console.ReadLine());
+
+        Console.Write("Enter English score (0-100): ");
+        double english = double.Parse(Console.ReadLine());
+
+        Console.Write("Enter Computer Science score (0-100): ");
+        double cs = double.Parse(Console.ReadLine());
+
+        // 4. Validation: check if scores are within 0-100
+        if (math < 0 || math > 100 || 
+            science < 0 || science > 100 || 
+            english < 0 || english > 100 || 
+            cs < 0 || cs > 100)
+        {
+            Console.WriteLine("Error: All scores must be between 0 and 100.");
+            return; // stop program
+        }
+
+        // 2. Weightages
+        double finalGrade = (math * 0.30) + (science * 0.20) + (english * 0.20) + (cs * 0.30);
+
+        // 3. Letter Grade Assignment
+        string letterGrade;
+        if (finalGrade >= 90)
+            letterGrade = "A";
+        else if (finalGrade >= 80)
+            letterGrade = "B";
+        else if (finalGrade >= 70)
+            letterGrade = "C";
+        else if (finalGrade >= 60)
+            letterGrade = "D";
+        else
+            letterGrade = "F";
+
+        // 5. Output
+        Console.WriteLine("\n--- Student Report ---");
+        Console.WriteLine("Name: " + name);
+        Console.WriteLine("Final Grade: " + finalGrade);
+        Console.WriteLine("Letter Grade: " + letterGrade);
+    }
+}
