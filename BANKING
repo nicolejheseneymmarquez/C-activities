@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        double balance = 1000;
+        string option;
+        List<string> transactions = new List<string>();
+
+        Console.WriteLine("Welcome to SwiftBank!");
+
+        do
+        {
+            Console.WriteLine("\nMenu:");
+            Console.WriteLine("1. Deposit");
+            Console.WriteLine("2. Withdraw");
+            Console.WriteLine("3. Check Balance");
+            Console.WriteLine("4. Transaction History");
+            Console.WriteLine("5. Exit");
+
+            Console.Write("Choose an option (1-5): ");
+            option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    Console.Write("Enter amount to deposit: ");
+                    double deposit = Convert.ToDouble(Console.ReadLine());
+                    if (deposit > 0)
+                    {
+                        balance += deposit;
+                        transactions.Add($"Deposited {deposit:C}. Balance: {balance:C}");
+                        Console.WriteLine($"Successfully deposited {deposit:C}. New balance: {balance:C}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid deposit amount!");
+                    }
+                    break;
+
+                case "2":
+                    Console.Write("Enter amount to withdraw: ");
+                    double withdraw = Convert.ToDouble(Console.ReadLine());
+                    if (withdraw > 0 && withdraw <= balance)
+                    {
+                        balance -= withdraw;
+                        transactions.Add($"Withdrew {withdraw:C}. Balance: {balance:C}");
+                        Console.WriteLine($"Successfully withdrew {withdraw:C}. New balance: {balance:C}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid withdrawal amount or insufficient funds!");
+                    }
+                    break;
+
+                case "3":
+                    Console.WriteLine($"Current balance: {balance:C}");
+                    break;
+
+                case "4":
+                    Console.WriteLine("\n--- Transaction History ---");
+                    if (transactions.Count == 0)
+                    {
+                        Console.WriteLine("No transactions yet.");
+                    }
+                    else
+                    {
+                        foreach (string t in transactions)
+                        {
+                            Console.WriteLine(t);
+                        }
+                    }
+                    Console.WriteLine("----------------------------");
+                    break;
+
+                case "5":
+                    Console.WriteLine("Thank you for banking with SwiftBank!");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid option! Please choose 1-5.");
+                    break;
+            }
+
+        } while (option != "5");
+    }
+}
