@@ -1,0 +1,31 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("How many subjects? ");
+        int subjects = Convert.ToInt32(Console.ReadLine());
+        double total = 0;
+
+        for (int i = 1; i <= subjects; i++)
+        {
+            Console.Write($"Enter grade for subject {i}: ");
+            double grade = Convert.ToDouble(Console.ReadLine());
+            total += grade;
+        }
+
+        double average = total / subjects;
+
+        Console.WriteLine("\nYour average is: " + average);
+
+        if (average >= 90)
+            Console.WriteLine("Remark: Excellent");
+        else if (average >= 80)
+            Console.WriteLine("Remark: Very Good");
+        else if (average >= 75)
+            Console.WriteLine("Remark: Passed");
+        else
+            Console.WriteLine("Remark: Failed");
+    }
+}
