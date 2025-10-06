@@ -1,0 +1,40 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter number of employees: ");
+        int totalEmployees = Convert.ToInt32(Console.ReadLine());
+
+        for (int i = 1; i <= totalEmployees; i++)
+        {
+            Console.WriteLine($"\n--- Employee {i} ---");
+            Console.Write("Enter employee name: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Enter total working days in the month: ");
+            int totalDays = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Enter number of days present: ");
+            int presentDays = Convert.ToInt32(Console.ReadLine());
+
+            int absences = totalDays - presentDays; // arithmetic operation
+            double attendanceRate = ((double)presentDays / totalDays) * 100;
+
+            Console.WriteLine($"\nEmployee Name: {name}");
+            Console.WriteLine($"Days Present: {presentDays}");
+            Console.WriteLine($"Days Absent: {absences}");
+            Console.WriteLine($"Attendance Rate: {attendanceRate:F2}%");
+
+            if (attendanceRate >= 90)
+                Console.WriteLine("Status: Excellent Attendance ✅");
+            else if (attendanceRate >= 75)
+                Console.WriteLine("Status: Satisfactory Attendance 👍");
+            else
+                Console.WriteLine("Status: Poor Attendance ⚠️");
+        }
+
+        Console.WriteLine("\nAll employee attendance records processed.");
+    }
+}
