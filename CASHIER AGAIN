@@ -1,0 +1,41 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string again;
+        do
+        {
+            Console.WriteLine("\n--- STORE CASHIER SYSTEM ---");
+            Console.Write("Enter item name: ");
+            string item = Console.ReadLine();
+
+            Console.Write("Enter price per item: ");
+            double price = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Enter quantity: ");
+            int qty = Convert.ToInt32(Console.ReadLine());
+
+            double total = price * qty;
+
+            Console.WriteLine($"\nItem: {item}");
+            Console.WriteLine($"Quantity: {qty}");
+            Console.WriteLine($"Price per item: ₱{price:F2}");
+            Console.WriteLine($"Total amount: ₱{total:F2}");
+
+            Console.Write("\nEnter amount received: ₱");
+            double cash = Convert.ToDouble(Console.ReadLine());
+
+            double change = cash - total;
+
+            Console.WriteLine($"Change: ₱{change:F2}");
+
+            Console.Write("\nDo you want to process another transaction? (yes/no): ");
+            again = Console.ReadLine().ToLower();
+
+        } while (again == "yes");
+
+        Console.WriteLine("\nThank you for using our Store Cashier System!");
+    }
+}
