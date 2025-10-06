@@ -1,0 +1,26 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter first number: ");
+        double num1 = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Enter second number: ");
+        double num2 = Convert.ToDouble(Console.ReadLine());
+
+        double sum = num1 + num2;
+        double diff = num1 - num2;
+        double prod = num1 * num2;
+        double quot = num1 / num2;
+        double mod = num1 % num2;
+
+        Console.WriteLine("\nResults:");
+        Console.WriteLine($"Sum = {sum}");
+        Console.WriteLine($"Difference = {diff}");
+        Console.WriteLine($"Product = {prod}");
+        Console.WriteLine($"Quotient = {quot}");
+        Console.WriteLine($"Remainder = {mod}");
+    }
+}
