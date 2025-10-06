@@ -1,0 +1,99 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        const int maxItems = 10;
+        string[] itemNames = new string[maxItems];
+        double[] itemPrices = new double[maxItems];
+        int itemCount = 0;
+        double total = 0;
+        int choice;
+
+        do
+        {
+            Console.WriteLine("\n===== STORE CASHIER SYSTEM =====");
+            Console.WriteLine("1. Add Item");
+            Console.WriteLine("2. View Cart");
+            Console.WriteLine("3. Pay");
+            Console.WriteLine("4. Exit");
+            Console.Write("Enter your choice: ");
+            choice = Convert.ToInt32(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1: // ADD ITEM
+                    if (itemCount < maxItems)
+                    {
+                        Console.Write("Enter item name: ");
+                        itemNames[itemCount] = Console.ReadLine();
+
+                        Console.Write("Enter item price: ₱");
+                        itemPrices[itemCount] = Convert.ToDouble(Console.ReadLine());
+
+                        total += itemPrices[itemCount];
+                        itemCount++;
+
+                        Console.WriteLine("Item added successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cart is full! You can only add up to 10 items.");
+                    }
+                    break;
+
+                case 2: // VIEW CART
+                    if (itemCount == 0)
+                    {
+                        Console.WriteLine("Your cart is empty.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n--- CART ITEMS ---");
+                        for (int i = 0; i < itemCount; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {itemNames[i]} - ₱{itemPrices[i]}");
+                        }
+                        Console.WriteLine($"Total: ₱{total}");
+                    }
+                    break;
+
+                case 3: // PAY
+                    if (itemCount == 0)
+                    {
+                        Console.WriteLine("Your cart is empty. Add items first!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\nYour total is ₱{total}");
+                        Console.Write("Enter payment amount: ₱");
+                        double payment = Convert.ToDouble(Console.ReadLine());
+
+                        if (payment < total)
+                        {
+                            Console.WriteLine("Insufficient payment! Transaction cancelled.");
+                        }
+                        else
+                        {
+                            double change = payment - total;
+                            Console.WriteLine($"Payment accepted! Your change is ₱{change}");
+                            total = 0;
+                            itemCount = 0;
+                            Console.WriteLine("Cart cleared. Thank you for shopping!");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    Console.WriteLine("Exiting program... Thank you!");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
+
+        } while (choice != 4);
+    }
+}
