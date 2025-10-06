@@ -1,0 +1,59 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        double balance = 0;
+        int choice = 0;
+
+        do
+        {
+            Console.WriteLine("\n--- Simple Bank Menu ---");
+            Console.WriteLine("1. Deposit");
+            Console.WriteLine("2. Withdraw");
+            Console.WriteLine("3. Check Balance");
+            Console.WriteLine("4. Exit");
+            Console.Write("Choose an option: ");
+            choice = Convert.ToInt32(Console.ReadLine());
+
+            // Using only if-else conditions (no switch)
+            if (choice == 1)
+            {
+                Console.Write("Enter amount to deposit: ");
+                double deposit = Convert.ToDouble(Console.ReadLine());
+                balance += deposit;
+                Console.WriteLine($"You deposited ₱{deposit}. New balance: ₱{balance}");
+            }
+            else if (choice == 2)
+            {
+                Console.Write("Enter amount to withdraw: ");
+                double withdraw = Convert.ToDouble(Console.ReadLine());
+                if (withdraw > balance)
+                {
+                    Console.WriteLine("Insufficient balance!");
+                }
+                else
+                {
+                    balance -= withdraw;
+                    Console.WriteLine($"You withdrew ₱{withdraw}. New balance: ₱{balance}");
+                }
+            }
+            else if (choice == 3)
+            {
+                Console.WriteLine($"Your current balance is ₱{balance}");
+            }
+            else if (choice == 4)
+            {
+                Console.WriteLine("Exiting program...");
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice. Please try again.");
+            }
+
+        } while (choice != 4);
+
+        Console.WriteLine("Thank you for using our banking system!");
+    }
+}
