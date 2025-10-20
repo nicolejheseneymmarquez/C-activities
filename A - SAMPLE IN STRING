@@ -1,0 +1,27 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string[] lines = File.ReadAllLines("sample.txt");
+
+        Console.Write("Enter Student ID: ");
+        string keyword = Console.ReadLine();
+
+        foreach (string line in lines)
+        {
+            if (line.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            {
+                string[] parts = line.Split(',');
+
+                Console.WriteLine("\n--- Student Information ---");
+                Console.WriteLine("Student ID: " + parts[0]);
+                Console.WriteLine("Last Name: " + parts[1]);
+                Console.WriteLine("First Name: " + parts[2]);
+                Console.WriteLine("Program: " + parts[3]);
+            }
+        }
+    }
+}
