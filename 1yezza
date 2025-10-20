@@ -1,0 +1,69 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string[] lines = File.ReadAllLines("students.txt");
+
+        Console.Write("Enter Student ID: ");
+        string studentID = Console.ReadLine();
+
+        bool found = false;
+
+        foreach (string line in lines)
+        {
+            if (line.Contains(studentID, StringComparison.OrdinalIgnoreCase))
+            {
+                found = true;
+                string[] parts = line.Split(',');
+
+                string number = parts[0];
+                string lName = parts[1];
+                string fName = parts[2];
+                string program = parts[3];
+
+                Console.WriteLine("\nStudent Found!");
+                Console.WriteLine("\n--- Student Information ---");
+                Console.WriteLine($"Last Name: {lName}");
+                Console.WriteLine($"First Name: {fName}");
+                Console.WriteLine($"Program: {program}\n");
+
+                Console.Write("Enter Prelim Grade: ");
+                double prelim = double.Parse(Console.ReadLine());
+
+                Console.Write("Enter Midterm Grade: ");
+                double midterm = double.Parse(Console.ReadLine());
+
+                Console.Write("Enter Final Grade: ");
+                double final = double.Parse(Console.ReadLine());
+
+                double average = (prelim + midterm + final) / 3;
+
+                string remark;
+                if (average >= 90)
+                    remark = "Excellent";
+                else if (average >= 80)
+                    remark = "Good";
+                else if (average >= 75)
+                    remark = "Passed";
+                else
+                    remark = "Failed";
+
+                Console.WriteLine($"\nAverage: {average:F2}");
+                Console.WriteLine($"Remark: {remark}");
+
+                string output = $"{number},{prelim},{midterm},{final},{average:F2},{remark}";
+                File.AppendAllText("grades.txt", output + Environment.NewLine);
+
+                Console.WriteLine("\nStudent record saved to grades.txt");
+            }
+        }
+
+        if (!found)
+        {
+            Console.WriteLine("\nngeeee Student not found.");
+        }
+    }
+}
