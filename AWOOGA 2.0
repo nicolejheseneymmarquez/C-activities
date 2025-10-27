@@ -1,0 +1,157 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        const int MAX = 100; // max employees
+        string[] names = new string[MAX];
+        double[] salaries = new double[MAX];
+        double[] netSalaries = new double[MAX];
+        int count = 0;
+
+        string filePath = "salary_data.txt";
+        string choice;
+        bool running = true;
+
+        Console.WriteLine("=== SALARY MANAGEMENT SYSTEM ===");
+
+        while (running)
+        {
+            Console.WriteLine("\nMENU:");
+            Console.WriteLine("[1] Add Employee");
+            Console.WriteLine("[2] View All Employees");
+            Console.WriteLine("[3] Save to File");
+            Console.WriteLine("[4] Load from File");
+            Console.WriteLine("[5] Exit");
+            Console.Write("Choose an option (1-5): ");
+            choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    if (count >= MAX)
+                    {
+                        Console.WriteLine("Employee list is full!");
+                        break;
+                    }
+
+                    Console.WriteLine("\n--- Add Employee ---");
+                    Console.Write("Enter name: ");
+                    string name = Console.ReadLine().Trim();
+
+                    while (string.IsNullOrEmpty(name))
+                    {
+                        Console.Write("Name cannot be empty. Enter name: ");
+                        name = Console.ReadLine().Trim();
+                    }
+
+                    Console.Write("Enter basic salary: ");
+                    double basic;
+                    while (!double.TryParse(Console.ReadLine(), out basic) || basic <= 0)
+                    {
+                        Console.Write("Invalid input. Enter a positive salary: ");
+                    }
+
+                    double allowance = basic * 0.10; // 10% allowance
+                    double deduction = basic * 0.05; // 5% deduction
+                    double net = basic + allowance - deduction;
+
+                    names[count] = name;
+                    salaries[count] = basic;
+                    netSalaries[count] = net;
+                    count++;
+
+                    Console.WriteLine($"{name}'s net salary: ₱{net:F2}");
+                    break;
+
+                case "2":
+                    if (count == 0)
+                    {
+                        Console.WriteLine("No employee data yet!");
+                        break;
+                    }
+
+                    Console.WriteLine("\n--- EMPLOYEE LIST ---");
+                    double total = 0;
+                    for (int i = 0; i < count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {names[i]} - Net Salary: ₱{netSalaries[i]:F2}");
+                        total += netSalaries[i];
+                    }
+
+                    double average = total / count;
+
+                    double highest = netSalaries[0];
+                    double lowest = netSalaries[0];
+                    string highName = names[0];
+                    string lowName = names[0];
+
+                    for (int i = 1; i < count; i++)
+                    {
+                        if (netSalaries[i] > highest)
+                        {
+                            highest = netSalaries[i];
+                            highName = names[i];
+                        }
+                        if (netSalaries[i] < lowest)
+                        {
+                            lowest = netSalaries[i];
+                            lowName = names[i];
+                        }
+                    }
+
+                    Console.WriteLine($"\nTotal Net Salary: ₱{total:F2}");
+                    Console.WriteLine($"Average Net Salary: ₱{average:F2}");
+                    Console.WriteLine($"Highest: {highName} - ₱{highest:F2}");
+                    Console.WriteLine($"Lowest: {lowName} - ₱{lowest:F2}");
+                    break;
+
+                case "3":
+                    using (StreamWriter writer = new StreamWriter(filePath))
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            writer.WriteLine($"{names[i]},{salaries[i]},{netSalaries[i]}");
+                        }
+                    }
+                    Console.WriteLine($"Data successfully saved to {filePath}");
+                    break;
+
+                case "4":
+                    if (!File.Exists(filePath))
+                    {
+                        Console.WriteLine("No saved file found!");
+                        break;
+                    }
+
+                    count = 0;
+                    string[] lines = File.ReadAllLines(filePath);
+                    foreach (string line in lines)
+                    {
+                        string[] parts = line.Split(',');
+                        if (parts.Length == 3)
+                        {
+                            names[count] = parts[0];
+                            salaries[count] = Convert.ToDouble(parts[1]);
+                            netSalaries[count] = Convert.ToDouble(parts[2]);
+                            count++;
+                        }
+                    }
+
+                    Console.WriteLine($"Loaded {count} employee(s) from file.");
+                    break;
+
+                case "5":
+                    running = false;
+                    Console.WriteLine("Exiting program. Goodbye!");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice. Please choose between 1-5.");
+                    break;
+            }
+        }
+    }
+}
