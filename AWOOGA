@@ -1,0 +1,96 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string filePath = "salary_report.txt";
+        Console.WriteLine("=== Simple Salary Management System ===");
+
+        Console.Write("How many employees do you want to enter? ");
+        int count = Convert.ToInt32(Console.ReadLine());
+
+        string[] names = new string[count];
+        double[] salaries = new double[count];
+        double[] netSalaries = new double[count];
+
+        double totalSalary = 0;
+        int i = 0;
+
+        // --- WHILE LOOP: Get input for each employee ---
+        while (i < count)
+        {
+            Console.WriteLine($"\nEmployee #{i + 1}");
+
+            Console.Write("Enter name: ");
+            names[i] = Console.ReadLine();
+
+            Console.Write("Enter basic salary: ");
+            salaries[i] = Convert.ToDouble(Console.ReadLine());
+
+            double allowance = salaries[i] * 0.10;  // 10% allowance
+            double deduction = salaries[i] * 0.05;  // 5% deduction
+            netSalaries[i] = salaries[i] + allowance - deduction;
+
+            totalSalary += netSalaries[i];
+            i++;
+        }
+
+        // --- FOR LOOP: Display employee details ---
+        Console.WriteLine("\n--- Salary Summary ---");
+        for (int j = 0; j < count; j++)
+        {
+            Console.WriteLine($"{names[j]} - Net Salary: ₱{netSalaries[j]:F2}");
+        }
+
+        // --- FOREACH LOOP: Compute total and average ---
+        double sum = 0;
+        foreach (double net in netSalaries)
+        {
+            sum += net;
+        }
+
+        double average = sum / netSalaries.Length;
+        Console.WriteLine($"\nTotal Net Salary: ₱{sum:F2}");
+        Console.WriteLine($"Average Net Salary: ₱{average:F2}");
+
+        // --- Find Highest and Lowest using FOR LOOP ---
+        double highest = netSalaries[0];
+        double lowest = netSalaries[0];
+        for (int k = 1; k < netSalaries.Length; k++)
+        {
+            if (netSalaries[k] > highest)
+                highest = netSalaries[k];
+            if (netSalaries[k] < lowest)
+                lowest = netSalaries[k];
+        }
+
+        Console.WriteLine($"\nHighest Net Salary: ₱{highest:F2}");
+        Console.WriteLine($"Lowest Net Salary: ₱{lowest:F2}");
+
+        // --- SYSTEM.IO: Save report to text file ---
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            writer.WriteLine("=== Salary Report ===");
+            for (int j = 0; j < count; j++)
+            {
+                writer.WriteLine($"{names[j]} - Net Salary: ₱{netSalaries[j]:F2}");
+            }
+            writer.WriteLine($"\nTotal: ₱{sum:F2}");
+            writer.WriteLine($"Average: ₱{average:F2}");
+            writer.WriteLine($"Highest: ₱{highest:F2}");
+            writer.WriteLine($"Lowest: ₱{lowest:F2}");
+        }
+
+        Console.WriteLine($"\nSalary report saved to: {filePath}");
+
+        // --- SYSTEM.IO: Read and display saved report ---
+        Console.WriteLine("\n--- Reading Saved File ---");
+        string fileContent = File.ReadAllText(filePath);
+        Console.WriteLine(fileContent);
+
+        Console.WriteLine("\nProgram finished. Press any key to exit...");
+        Console.ReadKey();
+    }
+}
